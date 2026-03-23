@@ -71,11 +71,18 @@ html, body {
 }
 
 .form-card h2,
-.list-card h2 {
-  margin: 0 0 0.85rem;
-  color: #e6ecff;
+.list-card {
+  display: flex;
+  flex-direction: column;
 }
 
+.list-card h2 {
+  position: sticky;
+  top: 0;
+  background: rgba(11, 19, 43, 0.9);
+  padding-bottom: 0.5rem;
+  z-index: 2;
+}
 .booking-form {
   display: grid;
   gap: 0.8rem;
@@ -121,11 +128,15 @@ html, body {
 .booking-list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0.4rem;
   display: grid;
-  gap: 0.7rem;
-  max-height: 46vh;
-  overflow: auto;
+  gap: 0.8rem;
+
+ 
+  max-height: 60vh; 
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  border-radius: 12px;
 }
 
 .booking-list li {
@@ -139,6 +150,23 @@ html, body {
   display: inline-block;
   font-size: 0.86rem;
   color: #c3cffd;
+}
+
+.booking-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.booking-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.booking-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5f9df7, #fb8b3c);
+  border-radius: 10px;
+}
+
+.booking-list::-webkit-scrollbar-thumb:hover {
+  filter: brightness(1.2);
 }
 
 .footer {
@@ -157,25 +185,34 @@ html, body {
   }
 }
 
-/* BOOKING ITEM STYLE (match JS layout) */
 .employee-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+
+  padding: 1rem; /* ⬅️ slightly bigger */
+  border-radius: 14px;
+
   background: rgba(10, 16, 36, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 0.9rem;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.employee-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
 .employee-info {
   display: grid;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: 0.5rem 1rem;
-  flex: 1;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 0.6rem 1.2rem;
 }
 
+.info-value {
+  font-size: 0.95rem;
+}
 .info-field {
   display: flex;
   flex-direction: column;
