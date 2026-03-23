@@ -1,6 +1,5 @@
 const content = document.querySelector("#content");
 const bookingForm = document.querySelector("#bookingForm");
-let editingId = null;
 
 window.addEventListener("load", () => {
   getBookings();
