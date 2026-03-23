@@ -1,5 +1,6 @@
 const content = document.querySelector("#content");
 const bookingForm = document.querySelector("#bookingForm");
+let editingId = null;
 
 window.addEventListener("load", () => {
   getBookings();
@@ -37,10 +38,18 @@ function getBookings() {
                 <div><b>PC Number:</b> ${element.pc_number}</div>
                 <div><b>Date:</b> ${formatDate(element.booking_date)}</div>
                 <div><b>Time:</b> ${element.start_time} - ${element.end_time}</div>
-                <div><b>Status:</b> ${element.status}</div>
+                <div><b>Status:</b> 
+                  <select onchange="updateStatus(${element.id}, this.value)">
+                    <option value="Pending" ${element.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                    <option value="Confirmed" ${element.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                    <option value="Completed" ${element.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    <option value="Cancelled" ${element.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                  </select>
+                </div>
                 <div><b>Contact:</b> ${element.contact_number}</div>
               </div>
 
+              <button onclick="editBooking(${element.id})">Edit</button>
               <button onclick="deleteBooking(${element.id})">Delete</button>
             </div>
           `;
@@ -55,7 +64,7 @@ function getBookings() {
     });
 }
 
-// POST BOOKING
+// POST/UPDATE BOOKING
 bookingForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const booking = {
@@ -64,20 +73,27 @@ bookingForm.addEventListener("submit", (e) => {
     booking_date: document.querySelector("#booking_date").value,
     start_time: document.querySelector("#start_time").value,
     end_time: document.querySelector("#end_time").value,
-    status: "Pending",
     contact_number: document.querySelector("#contact_number").value,
   };
 
-  fetch("https://booking-ni-shi.onrender.com/api/users", {
-    method: "POST",
+  const method = editingId ? "PUT" : "POST";
+  const url = editingId ? `https://booking-ni-shi.onrender.com/api/users/${editingId}` : "https://booking-ni-shi.onrender.com/api/users";
+
+  fetch(url, {
+    method: method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(booking),
-  }).catch((error) => {
-    console.log(error);
-  });
-
-  alert("Booking added successfully");
-  location.reload();
+  })
+    .then(() => {
+      alert(editingId ? "Booking updated successfully" : "Booking added successfully");
+      editingId = null;
+      document.querySelector("button[type='submit']").textContent = "Add Booking";
+      bookingForm.reset();
+      getBookings();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 // DELETE BOOKING
@@ -85,4 +101,35 @@ function deleteBooking(id) {
   fetch(`https://booking-ni-shi.onrender.com/api/users/${id}`, {
     method: "DELETE",
   }).then(() => location.reload());
+}
+
+// EDIT BOOKING
+function editBooking(id) {
+  fetch(`https://booking-ni-shi.onrender.com/api/users/${id}`, { mode: "cors" })
+    .then((response) => response.json())
+    .then((booking) => {
+      document.querySelector("#customer_name").value = booking.customer_name;
+      document.querySelector("#pc_number").value = booking.pc_number;
+      document.querySelector("#booking_date").value = booking.booking_date;
+      document.querySelector("#start_time").value = booking.start_time;
+      document.querySelector("#end_time").value = booking.end_time;
+      document.querySelector("#contact_number").value = booking.contact_number;
+      editingId = id;
+      document.querySelector("button[type='submit']").textContent = "Update Booking";
+    })
+    .catch((error) => console.log(error));
+}
+
+// UPDATE STATUS
+function updateStatus(id, newStatus) {
+  fetch(`https://booking-ni-shi.onrender.com/api/users/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: newStatus }),
+  })
+    .then(() => {
+      alert("Status updated successfully");
+      getBookings(); // Refresh the list
+    })
+    .catch((error) => console.log(error));
 }
