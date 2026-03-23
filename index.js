@@ -1,5 +1,5 @@
 const content = document.querySelector("#content");
-const submit = document.querySelector("#add");
+const bookingForm = document.querySelector("#bookingForm");
 
 window.addEventListener("load", () => {
   getBookings();
@@ -56,7 +56,8 @@ function getBookings() {
 }
 
 // POST BOOKING
-submit.addEventListener("click", () => {
+bookingForm.addEventListener("submit", (e) => {
+  e.preventDefault();
   const booking = {
     customer_name: document.querySelector("#customer_name").value,
     pc_number: document.querySelector("#pc_number").value,
