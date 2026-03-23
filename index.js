@@ -1,9 +1,18 @@
 const content = document.querySelector("#content");
 const bookingForm = document.querySelector("#bookingForm");
+const cancelBtn = document.querySelector("#cancelBtn");
 let editingId = null;
 
 window.addEventListener("load", () => {
   getBookings();
+});
+
+// CANCEL EDIT
+cancelBtn.addEventListener("click", () => {
+  editingId = null;
+  document.querySelector("button[type='submit']").textContent = "Add Booking";
+  bookingForm.reset();
+  cancelBtn.style.display = "none";
 });
 
 // Format date to MM/DD/YYYY
@@ -89,6 +98,7 @@ bookingForm.addEventListener("submit", (e) => {
       editingId = null;
       document.querySelector("button[type='submit']").textContent = "Add Booking";
       bookingForm.reset();
+      cancelBtn.style.display = "none";
       getBookings();
     })
     .catch((error) => {
@@ -116,6 +126,7 @@ function editBooking(id) {
       document.querySelector("#contact_number").value = booking.contact_number;
       editingId = id;
       document.querySelector("button[type='submit']").textContent = "Update Booking";
+      cancelBtn.style.display = "inline-block";
     })
     .catch((error) => console.log(error));
 }
