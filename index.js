@@ -98,6 +98,10 @@ form.addEventListener("submit", (e) => {
   .catch(err => console.log(err));
 });
 
+// EXPOSE TO GLOBAL SCOPE (fixes inline onclick not finding functions)
+window.editBooking = editBooking;
+window.deleteBooking = deleteBooking;
+
 // DELETE
 function deleteBooking(id) {
   if (confirm("Delete this booking?")) {
@@ -126,6 +130,8 @@ function editBooking(id) {
       document.querySelector("#end_time").value = b.end_time;
       document.querySelector("#contact_number").value = b.contact_number;
       document.querySelector("#ID").value = b.id;
+
+      updateBtn.disabled = false; // enable update only after edit is loaded
     })
     .catch(err => console.log(err));
 }
@@ -133,6 +139,11 @@ function editBooking(id) {
 // UPDATE
 updateBtn.addEventListener("click", () => {
   const id = document.querySelector("#ID").value;
+
+  if (!id) {
+    alert("Please click Edit on a booking first.");
+    return;
+  }
 
   const booking = {
     customer_name: document.querySelector("#customer_name").value,
@@ -151,6 +162,7 @@ updateBtn.addEventListener("click", () => {
   })
   .then(() => {
     alert("Updated");
+    updateBtn.disabled = true;
     location.reload();
   })
   .catch(err => console.log(err));
