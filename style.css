@@ -121,6 +121,11 @@ html, body {
   filter: brightness(1.07);
 }
 
+.booking-form button[type="button"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+}
+
 .booking-list {
   list-style: none;
   margin: 0;
