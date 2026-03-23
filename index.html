@@ -1,55 +1,65 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Computer Shop Booking</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="page-shell">
-      <header class="hero">
-        <h1>Computer Shop Booking</h1>
-        <p>Fast, secure booking for PC stations with smart schedule validation.</p>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computer Shop Booking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-      <section id="container" class="layout gap-3">
-        <article class="card form-card">
-          <h2>Book a PC Session</h2>
-          <form id="bookingForm" class="booking-form">
-          <label>Name</label>
-          <input type="text" id="customer_name" required />
+<main class="page-shell">
+  <header class="hero">
+    <h1>Computer Shop Booking</h1>
+    <p>Fast, secure booking for PC stations.</p>
+  </header>
 
-          <label>PC Number</label>
-          <input type="number" id="pc_number" required />
+  <section class="layout gap-3">
 
-          <label>Date</label>
-          <input type="date" id="booking_date" required />
+    <!-- FORM -->
+    <article class="card form-card">
+      <h2>Book a PC Session</h2>
 
-          <label>Start Time</label>
-          <input type="time" id="start_time" required />
+      <form id="bookingForm" class="booking-form">
+        <input type="hidden" id="ID" />
+        <input type="hidden" id="status" value="Pending" />
 
-          <label>End Time</label>
-          <input type="time" id="end_time" required />
+        <label>Name</label>
+        <input type="text" id="customer_name" required />
 
-          <label>Contact</label>
-          <input type="text" id="contact_number" required />
+        <label>PC Number</label>
+        <input type="number" id="pc_number" required />
 
-          <button type="submit">Add Booking</button>
-        </form>
-      </article>
+        <label>Date</label>
+        <input type="date" id="booking_date" required />
 
-      <aside class="card list-card">
-        <h2>Current Bookings</h2>
-        <ul id="content" class="booking-list"></ul>
-      </aside>
-      </section>
+        <label>Start Time</label>
+        <input type="time" id="start_time" required />
 
-      <footer class="footer">
-        <p>© 2026 Computer Shop. Built for a smooth booking experience.</p>
-      </footer>
-    </main>
+        <label>End Time</label>
+        <input type="time" id="end_time" required />
 
-    <script src="index.js"></script>
-  </body>
+        <label>Contact</label>
+        <input type="text" id="contact_number" required />
+
+        <button type="submit">Add Booking</button>
+        <button type="button" id="update">Update Booking</button>
+      </form>
+    </article>
+
+    <!-- LIST -->
+    <aside class="card list-card">
+      <h2>Current Bookings</h2>
+      <ul id="content" class="booking-list"></ul>
+    </aside>
+
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Computer Shop</p>
+  </footer>
+</main>
+
+<script src="index.js"></script>
+</body>
 </html>
